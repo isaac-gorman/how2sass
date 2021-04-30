@@ -1,0 +1,76 @@
+// importing a 'partial" css file so the compiler wont compile it at its file but within here
+@import "./resets";
+@import "./variables";
+
+// Functions
+// should be used to compute values
+// a great way to not repeat yourself when using dynamic information
+@function weight($weight-name) {
+  @return map-get($font-weights, $weight-name);
+}
+
+// mix-ins
+// should define styles
+// a great way to not repeat yourself when using dynamic information
+@mixin flexCenter($direction) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: $direction;
+}
+
+@mixin theme($light-theme: true) {
+  @if $light-theme {
+    background: lighten($primary-color, 100%);
+    color: darken($text-color, 100%);
+  }
+}
+
+@mixin mobile {
+  @media (max-width: $mobile) {
+    @content;
+  }
+}
+
+body {
+  background: $primary-color;
+  font-weight: weight(regular);
+  color: map-get($font-colors, darkModeHeadings);
+}
+
+// Nesting
+// nesting is one of the best features of SASS
+// nesting careful not to use too much nesting in large projects
+// it is often better to use classes that can be reused instead of using nest after nest
+
+.main {
+  @include flexCenter(row);
+  width: 80%;
+  margin: 0 auto;
+  // using interpolation to include all the attributes before it
+  #{&}-paragraph1 {
+    font-weight: weight(bold);
+    color: map-get($font-colors, darkModeBody);
+
+    &:hover {
+      color: map-get($font-colors, darkModeHeadings);
+      font-weight: weight(regular);
+    }
+  }
+
+  #{&}-paragraph2 {
+    @extend .main-paragraph1;
+
+    &:hover {
+      color: $alternate-color;
+    }
+  }
+
+  @include mobile {
+    @include flexCenter(column);
+  }
+}
+
+// .light {
+//   @include theme($light-theme: true);
+// }
