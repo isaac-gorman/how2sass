@@ -1,0 +1,22 @@
+// SASS variables
+$primary-color: #272727;
+$accent-color: #ff652f;
+$text-color: #ffffff;
+
+// SASS maps
+// maps are very similar to objects, they are a list of key value pairs
+$font-weights: (
+  "regular": 400,
+  "medium": 500,
+  "bold": 700,
+);
+$font-colors: (
+  "darkMode": white,
+  "lightMode": black,
+);
+
+body {
+  background: $primary-color;
+  font-weight: map-get($font-weights, bold);
+  color: map-get($font-colors, darkMode);
+}
